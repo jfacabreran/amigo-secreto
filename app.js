@@ -14,13 +14,24 @@ function agregarAmigo() {
     mostrarLista();
 }
 
+function eliminarAmigo(index) {
+    if (confirm(`¿Deseas eliminar a "${listaAmigos[index]}" de la lista?`)) {
+        listaAmigos.splice(index, 1);
+        mostrarLista();
+    }
+}
+
 function mostrarLista() {
     const listaElement = document.getElementById("listaAmigos");
     listaElement.innerHTML = ""; // Limpiar lista
 
-    listaAmigos.forEach((amigo) => {
+    listaAmigos.forEach((amigo, index) => {
         const li = document.createElement("li");
         li.textContent = amigo;
+        li.addEventListener("click", () => {
+            eliminarAmigo(index);
+        });
+
         listaElement.appendChild(li);
     });
 }
@@ -36,4 +47,17 @@ function sortearAmigo() {
 
     const resultadoElement = document.getElementById("resultado");
     resultadoElement.innerHTML = `<li>🎉 El amigo secreto es: <strong>${amigoSecreto}</strong></li>`;
+}
+
+function borrarLista() {
+    if (listaAmigos.length === 0) {
+        alert("No hay nombres en la lista para borrar.");
+        return;
+    }
+
+    if (confirm("¿Estás seguro de borrar toda la lista?")) {
+        listaAmigos = [];
+        document.getElementById("listaAmigos").innerHTML = "";
+        document.getElementById("resultado").innerHTML = "";
+    }
 }
